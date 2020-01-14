@@ -4,6 +4,10 @@
 
 * 在您使用京东云微服务平台的时候如果您需要使用京东云微服务平台的`服务治理-服务鉴权`和`部署`功能则需要引用插件 `spring-cloud-jdsf` 系列插件，包括 `spring-cloud-jdsf-auth`和`spring-cloud-jdsf-consul`。按照您使用的 Spring Cloud 版本，来选择对应的插件。
 
+* `spring-cloud-jdsf-consul`: 插件会获取使用微服务平台部署功能部署时候的环境变量，从环境变量中自动查找注册中心地址，替换您配置文件中配置的地址，进行服务注册
+* `spring-cloud-jdsf-auth`:服务鉴权插件，如果您需要使用服务鉴权功能，请在控制台添加配置，然后在服务中引用插件。在 spring cloud 启动类上面添加注解`@EnableJdsfAuth`,需要注意的是，如果您使用的是`Spring WebFlux`框架开发的应用请使用`com.jdcloud.jdsf.auth.annotation.reactive.EnableJdsfAuth` 这个annotation,如果您使用的是普通的`Spring WebMVC` 请使用`com.jdcloud.jdsf.auth.annotation.EnableJdsfAuth`这个annotation。
+* `spring-cloud-jdsf-route`: 京东云微服务平台路由插件，当引用插件的时候会自动的开启路由功能，默认情况下您如果没有在京东云微服务控制台配置路由规则的时候，服务路由功能不会生效，只有在开启的情况下才会生效。需要注意的是目前在使用`Spring WebFlux` 框架的时候，当前是不支持使用`RestTemplate` or `AsyncRestTemplate`进行请求路由，需要使用 `WebClient`.当您使用路由功能的时候必须使用京东云微服务平台的部署功能和注册中心插件(`spring-cloud-jdsf-consul`).
+
 &emsp;&emsp;如果您使用的springcloud版本为 `Edgware` 则需要引用：
 
 ```xml
@@ -15,6 +19,11 @@
     <dependency>
         <groupId>com.jdcloud.jdsf</groupId>
         <artifactId>spring-cloud-jdsf-consul</artifactId>
+        <version>1.1.2-Edgware</version>
+    </dependency>
+    <dependency>
+        <groupId>com.jdcloud.jdsf</groupId>
+        <artifactId>spring-cloud-jdsf-route</artifactId>
         <version>1.1.2-Edgware</version>
     </dependency>
 ```
@@ -32,6 +41,11 @@
         <artifactId>spring-cloud-jdsf-consul</artifactId>
         <version>1.1.2-Finchley</version>
     </dependency>
+    <dependency>
+        <groupId>com.jdcloud.jdsf</groupId>
+        <artifactId>spring-cloud-jdsf-route</artifactId>
+        <version>1.1.2-Finchley</version>
+    </dependency>
 ```
 
 &emsp;&emsp;如果使用的为 `Greenwich` 版本则需要引用
@@ -45,6 +59,11 @@
     <dependency>
         <groupId>com.jdcloud.jdsf</groupId>
         <artifactId>spring-cloud-jdsf-consul</artifactId>
+        <version>1.1.2-Greenwich</version>
+    </dependency>
+    <dependency>
+        <groupId>com.jdcloud.jdsf</groupId>
+        <artifactId>spring-cloud-jdsf-route</artifactId>
         <version>1.1.2-Greenwich</version>
     </dependency>
 ```
@@ -62,9 +81,12 @@
         <artifactId>spring-cloud-jdsf-consul</artifactId>
         <version>1.1.2-Hoxton</version>
     </dependency>
+    <dependency>
+        <groupId>com.jdcloud.jdsf</groupId>
+        <artifactId>spring-cloud-jdsf-route</artifactId>
+        <version>1.1.2-Hoxton</version>
+    </dependency>
 ```
-
-&emsp;&emsp;引用后服务不需要进行任何配置，所有的认证配置只需要在控制台进行
 
 * 如果您不想使用 JDSF 的服务治理功能，只想使用JDSF 的注册中心和部署功能，可以只配置注册中心的参数即可：  
 
@@ -75,16 +97,6 @@ spring:
       host: ${JDSF_CONSUL_HOST}
       port: ${JDSF_CONSUL_PORT}
 ```
-
-* 如果您只想使用注册中心和部署又不想在配置文件中配置环境变量，推荐您引用我们的插件：
-  
-```xml
-    <dependency>
-        <groupId>com.jdcloud.jdsf</groupId>
-        <artifactId>spring-cloud-jdsf-consul</artifactId>
-        <version>${version}</version>
-    </dependency>
-```  
 
 ## dubbo 插件说明
 
@@ -116,6 +128,5 @@ spring:
 
 * 如果您使用的是 dubbo 2.6.x 版本的请联系客服获取插件，稍后 2.6.x 版本的插件会发布到京东云的公共仓库中。
 
-## 插件功能说明
 
-* `spring-cloud-jdsf-consul`: 插件会获取使用微服务平台部署功能部署时候的环境变量，从环境变量中自动查找注册中心地址，替换您配置文件中配置的地址，进行服务注册
+
