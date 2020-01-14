@@ -1,0 +1,17 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.jdcloud.demo.client.config.CloudConfig",
+      "name": "config.prefix",
+      "type": "com.jdcloud.demo.client.config.CloudConfig"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.jdcloud.demo.client.config.CloudConfig",
+      "name": "config.prefix.name",
+      "type": "java.lang.String"
+    }
+  ]
+}
